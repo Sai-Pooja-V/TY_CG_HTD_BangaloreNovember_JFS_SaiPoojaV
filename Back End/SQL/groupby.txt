@@ -1,0 +1,152 @@
+SQL> cl scr
+SQL> select sal from emp
+  2  group by sal;
+
+       SAL                                                                                          
+----------                                                                                          
+      2450                                                                                          
+      5000                                                                                          
+      1300                                                                                          
+      1250                                                                                          
+      2850                                                                                          
+      2975                                                                                          
+      1100                                                                                          
+      3000                                                                                          
+       800                                                                                          
+      1600                                                                                          
+      1500                                                                                          
+       950                                                                                          
+
+12 rows selected.
+
+SQL> select deptno from emp
+  2  group by deptno;
+
+    DEPTNO                                                                                          
+----------                                                                                          
+        30                                                                                          
+        20                                                                                          
+        10                                                                                          
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select count(deptno) 
+  2* from emp
+SQL> /
+
+COUNT(DEPTNO)                                                                                       
+-------------                                                                                       
+           14                                                                                       
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select count(deptno) 
+  2  from emp
+  3* group by deptno
+SQL> /
+
+COUNT(DEPTNO)                                                                                       
+-------------                                                                                       
+            6                                                                                       
+            5                                                                                       
+            3                                                                                       
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select count(deptno) , deptno
+  2  from emp
+  3* group by deptno
+SQL> /
+
+COUNT(DEPTNO)     DEPTNO                                                                            
+------------- ----------                                                                            
+            6         30                                                                            
+            5         20                                                                            
+            3         10                                                                            
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select count(deptno) , deptno, sal
+  2  from emp
+  3* group by deptno
+SQL> /
+select count(deptno) , deptno, sal
+                               *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select sal
+  2  from emp
+  3* group by deptno
+SQL> /
+select sal
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select sum(sal)
+  2  from emp
+  3* group by deptno
+SQL> /
+
+  SUM(SAL)                                                                                          
+----------                                                                                          
+      9400                                                                                          
+     10875                                                                                          
+      8750                                                                                          
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select avg(sum(sal))
+  2  from emp
+  3* group by deptno
+SQL> /
+
+AVG(SUM(SAL))                                                                                       
+-------------                                                                                       
+         9675                                                                                       
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select deptno
+  2  from emp
+  3  where sal = max(sal)
+  4* group by deptno
+SQL> /
+where sal = max(sal)
+            *
+ERROR at line 3:
+ORA-00934: group function is not allowed here 
+
+
+SQL> s
+SP2-0042: unknown command "s" - rest of line ignored.
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select deptno
+  2  from emp
+  3  having sal = max(sal)
+  4* group by deptno
+SQL> /
+having sal = max(sal)
+       *
+ERROR at line 3:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> spool off

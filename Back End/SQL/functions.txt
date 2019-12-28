@@ -1,0 +1,234 @@
+SQL> select avg(sal)
+  2  from sal;
+from sal
+     *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select avg(sal)
+  2* from emp
+SQL> /
+
+  AVG(SAL)                                                                                          
+----------                                                                                          
+2073.21429                                                                                          
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select max(sal)
+  2* from emp
+SQL> /
+
+  MAX(SAL)                                                                                          
+----------                                                                                          
+      5000                                                                                          
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select min(sal)
+  2* from emp
+SQL> /
+
+  MIN(SAL)                                                                                          
+----------                                                                                          
+       800                                                                                          
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select sum(sal)
+  2* from emp
+SQL> /
+
+  SUM(SAL)                                                                                          
+----------                                                                                          
+     29025                                                                                          
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select count(sal)
+  2* from emp
+SQL> /
+
+COUNT(SAL)                                                                                          
+----------                                                                                          
+        14                                                                                          
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select count(comm)
+  2* from emp
+SQL> /
+
+COUNT(COMM)                                                                                         
+-----------                                                                                         
+          4                                                                                         
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select count(mgr)
+  2* from emp
+SQL> /
+
+COUNT(MGR)                                                                                          
+----------                                                                                          
+        13                                                                                          
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select sum(comm)
+  2* from emp
+SQL> /
+
+ SUM(COMM)                                                                                          
+----------                                                                                          
+      2200                                                                                          
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select sum(comm)  /* Multi Row Functions ignore null values*/
+  2* from emp
+SQL> /
+
+SUM(COMM)/*MULTIROWFUNCTIONSIGNORENULLVALUES*/                                                      
+----------------------------------------------                                                      
+                                          2200                                                      
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select sum(comm)  -- Multi Row Functions ignore null values --
+  2* from emp
+SQL> /
+
+SUM(COMM)--MULTIROWFUNCTIONSIGNORENULLVALUES--                                                      
+----------------------------------------------                                                      
+                                          2200                                                      
+
+SQL> spool off
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select sum(comm)  -- Multi Row Functions ignore null values --  sum_of_values
+  2* from emp
+SQL> /
+
+SUM(COMM)--MULTIROWFUNCTIONSIGNORENULLVALUES--SUM_OF_VALUES                                         
+-----------------------------------------------------------                                         
+                                                       2200                                         
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  -- Multi Row Functions ignore null values --  
+  2  select sum(comm)  sum_of_values
+  3* from emp
+SQL> /
+-- Multi Row Functions ignore null values --  
+*
+ERROR at line 1:
+ORA-24374: define not done before fetch or execute and fetch 
+
+
+SQL> cl scr
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select sum(comm) , comm
+  2* from emp
+SQL> /
+select sum(comm) , comm
+                   *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select sum(comm) , comm   /*columnName_should_not_give_along_with_MRF*/
+  2* from emp
+SQL> /
+select sum(comm) , comm   /*columnName_should_not_give_along_with_MRF*/
+                   *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select sum(comm) , avg(comm), max(comm), min(comm), count(comm)   /*More_than_one_MRF_can_be_given_at_the_same_time */
+  2* from emp
+SQL> /
+
+ SUM(COMM)  AVG(COMM)  MAX(COMM)  MIN(COMM)                                                         
+---------- ---------- ---------- ----------                                                         
+COUNT(COMM)/*MORE_THAN_ONE_MRF_CAN_BE_GIVEN_AT_THE_SAME_TIME*/                                      
+--------------------------------------------------------------                                      
+      2200        550       1400          0                                                         
+                                                             4                                      
+                                                                                                    
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select sum(comm) , avg(comm), max(comm), min(comm), count(comm)   
+  2* from emp
+SQL> /
+
+ SUM(COMM)  AVG(COMM)  MAX(COMM)  MIN(COMM) COUNT(COMM)                                             
+---------- ---------- ---------- ---------- -----------                                             
+      2200        550       1400          0           4                                             
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select max(sum(comm))
+  2* from emp
+  3  /
+select max(sum(comm))
+           *
+ERROR at line 1:
+ORA-00978: nested group function without GROUP BY 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select *
+  2  from emp
+  3* where sal = max(sal)
+SQL> /
+where sal = max(sal)
+            *
+ERROR at line 3:
+ORA-00934: group function is not allowed here 
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select * max(sal,comm)
+  2* from emp
+  3  /
+select * max(sal,comm)
+         *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> spoll
+SP2-0042: unknown command "spoll" - rest of line ignored.
+SQL> spool off
