@@ -1,0 +1,8 @@
+nav{
+    background: lightcyan;
+}
+
+nav ul li{
+    display: inline-block;
+    padding: 20px;
+}

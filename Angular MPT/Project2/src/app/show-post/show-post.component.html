@@ -1,0 +1,27 @@
+<div class="container mt-3">
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>User Id</th>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Body</th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor='let post of posts'>
+                <td> {{post.userId}}</td>
+                <td> {{post.id}}</td>
+                <td> {{post.title}}</td>
+                <td> {{post.body}}</td>
+                <td> 
+                    <button class="btn btn-outline-danger float-right"
+                        (click)='deletePost(customer)'>Delete</button>
+                    <button class="btn btn-outline-primary float-left"
+                        (click)='modifyPost(customer)'>Update</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

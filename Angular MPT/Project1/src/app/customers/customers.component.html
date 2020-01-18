@@ -1,0 +1,23 @@
+<div class="container mt-3">
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Index</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor='let customer of customers; index as i'>
+                <td> {{i+1}}</td>
+                <td> {{customer.name}}</td>
+                <td> {{customer.email}}</td>
+                <td> {{customer.phone}}</td>
+                <td> <button class="btn btn-outline-danger float-right"
+                        (click)='deleteCustomer(customer)'>Delete</button> </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
